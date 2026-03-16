@@ -5,71 +5,96 @@
   <title>WeatherTrackers Domain Bundle For Sale</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="WeatherTrackers domain bundle for sale. Ideal for storm chasers, severe weather coverage, and live tracking platforms." />
-
-  <style>
+<style>
+  /* Base page styles (no background image on body) */
   body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #0f172a; /* fallback color behind the fixed layer */
+    color: #e5e7eb;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+  }
 
-  /* Background image + readability overlay */
-  background:
-    linear-gradient(rgba(15, 23, 42, 0.50), rgba(15, 23, 42, 0.70)),
-    url("./WeatherTrackersBackgroundTM.jpg");
-  background-size: cover;           /* Fill the viewport */
-  background-position: center;      /* Keep focal point centered */
-  background-repeat: no-repeat;
-  background-attachment: fixed;     /* Nice subtle parallax on desktop */
+  /* ✨ Fixed, cross-platform background layer (works on iOS) */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
 
-  color: #e5e7eb;
-  margin: 0;
-  padding: 0;
-  line-height: 1.6;
-}
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 3rem 1.5rem;
+    /* Your preferred gradient + image */
+    background:
+      linear-gradient(rgba(15, 23, 42, 0.50), rgba(15, 23, 42, 0.70)),
+      url("./WeatherTrackersBackgroundTM.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: auto;
+    padding: 3rem 1.5rem;
+  }
+
+  h1, h2, h3 {
+    color: #f9fafb;
+  }
+
+  .domains {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .domain-card {
+    background: #020617cc; /* slight transparency to let background breathe */
+    border: 1px solid #1e293b;
+    padding: 1.25rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .domain-card strong {
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .cta {
+    background: #2563eb;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-weight: 600;
+  }
+
+  .cta:hover {
+    background: #1d4ed8;
+  }
+
+  footer {
+    margin-top: 4rem;
+    font-size: 0.9rem;
+    color: #9ca3af;
+    text-align: center;
+  }
+
+  /* Optional: slightly stronger gradient on very small screens for readability */
+  @media (max-width: 480px) {
+    body::before {
+      background:
+        linear-gradient(rgba(15, 23, 42, 0.60), rgba(15, 23, 42, 0.80)),
+        url("./WeatherTrackersBackgroundTM.jpg");
     }
-    h1, h2, h3 {
-      color: #f9fafb;
-    }
-    .domains {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-    .domain-card {
-      background: #020617;
-      border: 1px solid #1e293b;
-      padding: 1.25rem;
-      border-radius: 8px;
-      text-align: center;
-    }
-    .domain-card strong {
-      font-size: 1.2rem;
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-    .cta {
-      background: #2563eb;
-      color: white;
-      padding: 1rem 1.5rem;
-      border-radius: 6px;
-      text-decoration: none;
-      display: inline-block;
-      margin-top: 1.5rem;
-      font-weight: 600;
-    }
-    .cta:hover {
-      background: #1d4ed8;
-    }
-    footer {
-      margin-top: 4rem;
-      font-size: 0.9rem;
-      color: #9ca3af;
-      text-align: center;
-    }
-  </style>
+  }
+</style>
+  
 </head>
 
 <body>
