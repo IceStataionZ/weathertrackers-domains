@@ -194,49 +194,39 @@
 <p>Bundle‑only sale. Serious inquiries from storm chasers, weather YouTubers, and media teams.</p>
 
 <form method="POST" data-static-form-name="weathertrackers-contact" class="contact">
+  <!-- Context for routing/filters -->
   <input type="hidden" name="bundle" value="weathertrackers.com, .net, .org, .us" />
 
   <div class="form-row">
     <div>
-      <label>Your name</label>
-      <input type="text" name="name" required />
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" required />
     </div>
     <div>
-      <label>Email</label>
-      <input type="email" name="email" required />
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required />
     </div>
   </div>
 
   <div class="form-row">
     <div>
-      <label>Channel / Organization (optional)</label>
-      <input type="text" name="organization" />
+      <label for="phone">Phone (optional)</label>
+      <input id="phone" name="phone" type="text" placeholder="(optional)" />
     </div>
-    <div>
-      <label>Budget range (optional)</label>
-      <select name="budget">
-        <option value="">Prefer not to say</option>
-        <option>$10k–$25k</option>
-        <option>$25k–$50k</option>
-        <option>$50k–$100k</option>
-        <option>$100k+</option>
-      </select>
-    </div>
+    <div><!-- empty right column to keep grid balanced --></div>
   </div>
 
-  <label>What are you building?</label>
-  <textarea name="message" required></textarea>
-
   <!-- Honeypot (anti‑spam) -->
-  <input type="text" name="company" style="display:none" />
+  <input type="text" name="company" style="display:none" autocomplete="off" tabindex="-1" />
 
-  <label style="margin-top:.75rem;">
-    <input type="checkbox" required />
-    I understand this is a <strong>bundle‑only</strong> sale.
+  <label style="margin-top:.75rem; display:block;">
+    <input type="checkbox" name="bundle_ack" required />
+    I understand this is a <strong>bundle‑only</strong> sale (all four domains together).
   </label>
 
+  <!-- Submit button at the very bottom -->
   <button type="submit" class="btn-primary" style="margin-top:1rem;">
-    Send Inquiry
+    Submit Inquiry
   </button>
 </form>
 
