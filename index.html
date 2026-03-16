@@ -7,14 +7,23 @@
   <meta name="description" content="WeatherTrackers domain bundle for sale. Ideal for storm chasers, severe weather coverage, and live tracking platforms." />
 
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-    }
+  body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Background image + readability overlay */
+  background:
+    linear-gradient(rgba(15, 23, 42, 0.90), rgba(15, 23, 42, 0.90)),
+    url("./WeatherTrackersBackgroundTM.jpg");
+  background-size: cover;           /* Fill the viewport */
+  background-position: center;      /* Keep focal point centered */
+  background-repeat: no-repeat;
+  background-attachment: fixed;     /* Nice subtle parallax on desktop */
+
+  color: #e5e7eb;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
     .container {
       max-width: 900px;
       margin: auto;
