@@ -25,20 +25,21 @@
   line-height: 1.6;
 }
 /* Slightly stronger overlay on very small screens, where text lines are shorter */
-@media (max-width: 480px) {
-  body {
-    background:
-      linear-gradient(rgba(15, 23, 42, 0.50), rgba(15, 23, 42, 0.70)),
-      url("./WeatherTrackersBackgroundTM.jpg");
-  }
-}
+/* 
+/*@media (max-width: 480px) {
+/*  body {
+/*    background:
+/*      linear-gradient(rgba(15, 23, 42, 0.50), rgba(15, 23, 42, 0.70)),
+/*      url("./WeatherTrackersBackgroundTM.jpg");
+/*  }
+/*}
 
 /* Respect users who prefer less motion – disable fixed attachment */
-@media (prefers-reduced-motion: reduce) {
-  body {
-    background-attachment: scroll;
-  }
-}
+/*@media (prefers-reduced-motion: reduce) {
+/*  body {
+/*    background-attachment: scroll;
+/*  }
+/*}
     .container {
       max-width: 900px;
       margin: auto;
