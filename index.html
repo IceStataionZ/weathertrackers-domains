@@ -190,16 +190,55 @@
       <li>Media or SaaS startups in weather intelligence</li>
     </ul>
 
-    <h2>Acquisition</h2>
+<h2>Contact to Discuss Acquisition</h2>
+<p>Bundle‑only sale. Serious inquiries from storm chasers, weather YouTubers, and media teams.</p>
 
-    <p>
-      Serious inquiries only. Clean transfer via reputable escrow if desired.
-      No leasing. No individual domain sales.
-    </p>
+<form method="POST" data-static-form-name="weathertrackers-contact" class="contact">
+  <input type="hidden" name="bundle" value="weathertrackers.com, .net, .org, .us" />
 
-    <a class="cta" href="mailto:youremail@example.com?subject=WeatherTrackers Domain Bundle Inquiry">
-      Contact to Discuss Acquisition
-    </a>
+  <div class="form-row">
+    <div>
+      <label>Your name</label>
+      <input type="text" name="name" required />
+    </div>
+    <div>
+      <label>Email</label>
+      <input type="email" name="email" required />
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div>
+      <label>Channel / Organization (optional)</label>
+      <input type="text" name="organization" />
+    </div>
+    <div>
+      <label>Budget range (optional)</label>
+      <select name="budget">
+        <option value="">Prefer not to say</option>
+        <option>$10k–$25k</option>
+        <option>$25k–$50k</option>
+        <option>$50k–$100k</option>
+        <option>$100k+</option>
+      </select>
+    </div>
+  </div>
+
+  <label>What are you building?</label>
+  <textarea name="message" required></textarea>
+
+  <!-- Honeypot (anti‑spam) -->
+  <input type="text" name="company" style="display:none" />
+
+  <label style="margin-top:.75rem;">
+    <input type="checkbox" required />
+    I understand this is a <strong>bundle‑only</strong> sale.
+  </label>
+
+  <button type="submit" class="btn-primary" style="margin-top:1rem;">
+    Send Inquiry
+  </button>
+</form>
 
     <footer>
       © 2026 — WeatherTrackers Domain Portfolio
