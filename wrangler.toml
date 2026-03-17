@@ -1,0 +1,12 @@
+name = "weathertrackers-contact-worker"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# Email Workers binding (Cloudflare will attach this to your Worker)
+# IMPORTANT: set this to your already-verified destination address
+send_email = [
+  { name = "FORM_EMAIL", destination_address = "YOUR_VERIFIED_INBOX@example.com" }
+]
+
+[vars]
+# Must be an address on a domain where Cloudflare
