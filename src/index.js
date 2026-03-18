@@ -1,68 +1,72 @@
+// Use the Email Workers API (binding created by Wrangler via `send_email` in wrangler.toml)
+import { EmailMessage } from "cloudflare:email";
+
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request, env) {
     if (request.method !== "POST") {
       return new Response("POST only", { status: 405 });
     }
 
     const form = await request.formData();
 
-    // Honeypot: if this hidden field is filled by bots, exit quietly.
+    // Honeypot: if bots fill this, exit quietly
     if (form.get("company")) {
       return new Response("OK", { status: 200 });
     }
 
-    const name   = ((form.get("name") ?? "") + "").trim();
-    const email  = ((form.get("email") ?? "") + "").trim();
-    const phone  = ((form.get("phone") ?? "") + "").trim();
-    const bundle = ((form.get("bundle") ?? "WeatherTrackers Domain Bundle") + "").trim();
+    const name   = String(form.get("name")   ?? "").trim();
+    const email  = String(form.get("email")  ?? "").trim();
+    const phone  = String(form.get("phone")  ?? "").trim();
+    const bundle = String(form.get("bundle") ?? "WeatherTrackers Domain Bundle").trim();
     const ack    = !!form.get("bundle_ack"); // checkbox → boolean
 
-    // Minimal validation
     if (!name || !email || !ack) {
       return new Response("Missing name/email/ack", { status: 400 });
     }
 
-    // Build a minimal HTML body
+    // Minimal HTML body for the email
     const html = `
-      <h3>New WeatherTrackers Inquiry</h3>
-      <table border="0" cellpadding="4" cellspacing="0">
-        <tr><td><strong>Name</strong></td><td>${esc(name)}</td></tr>
-        <tr><td><strong>Email</strong></td><td>${esc(email)}</td></tr>
-        <tr><td><strong>Phone</strong></td><td>${esc(phone || "(none)")}</td></tr>
-        <tr><td><strong>Bundle</strong></td><td>${esc(bundle)}</td></tr>
-        <tr><td><strong>Bundle-only acknowledged</strong></td><td>${ack ? "Yes" : "No"}</td></tr>
-        <tr><td><strong>Submitted</strong></td><td>${new Date().toLocaleString()}</td></tr>
-      </table>
-    `;
+<h4>New WeatherTrackers Inquiry</h4>
+<table>
+  <tr><td><b>Name</b></td><td>${escapeHtml(name)}</td></tr>
+  <tr><td><b>Email</b></td><td>${escapeHtml(email)}</td></tr>
+  <tr><td><b>Phone</b></td><td>${escapeHtml(phone || "(none)")}</td></tr>
+  <tr><td><b>Bundle</b></td><td>${escapeHtml(bundle)}</td></tr>
+  <tr><td><b>Bundle-only acknowledged</b></td><td>${ack ? "Yes" : "No"}</td></tr>
+  <tr><td><b>Submitted</b></td><td>${new Date().toLocaleString()}</td></tr>
+</table>`.trim();
 
-    // Sanity check: confirm binding is available
-    if (!env.FORM_EMAIL) {
-      console.log("FORM_EMAIL binding is missing");
-      return new Response("Email binding missing", { status: 500 });
+    // Addresses from environment (configured in wrangler.toml)
+    const to   = env.CONTACT_TO;              // "cloudflare@weathertrackers.com"
+    const from = env.FROM_ADDRESS;            // "no-reply@weathertrackers.net"
+
+    // Build a simple raw MIME message (no external deps required)
+    const raw = [
+      `From: ${from}`,
+      `To: ${to}`,
+      `Reply-To: ${email}`,
+      `Subject: WeatherTrackers inquiry — ${name}`,
+      "MIME-Version: 1.0",
+      "Content-Type: text/html; charset=UTF-8",
+      "",
+      html
+    ].join("\r\n");
+
+    try {
+      const message = new EmailMessage(from, to, raw);
+      await env.FORM_EMAIL.send(message); // <-- Correct usage with send_email binding
+    } catch (err) {
+      // Log the stack so we can see it in `wrangler tail` if something goes wrong
+      console.error("Email send failed:", err?.stack || String(err));
+      return new Response("Email send failed", { status: 500 });
     }
-
-    // Addresses from environment (set in wrangler.toml)
-    const to = env.CONTACT_TO;               // e.g., cloudflare@weathertrackers.com
-    const from = env.FROM_ADDRESS;           // e.g., no-reply@weathertrackers.net (must be on Email‑routed domain)
-
-    // IMPORTANT: await the send, so delivery is actually attempted
-    await env.FORM_EMAIL.send({
-      to,
-      from,
-      subject: `WeatherTrackers inquiry — ${name}`,
-      content: [
-        { type: "text/html", value: html }
-      ],
-      // Let recipient reply directly to the submitter (optional)
-      reply_to: email
-    });
 
     return new Response("Contact endpoint received.", { status: 200 });
   },
 };
 
-// Simple HTML escape
-function esc(s) {
+// Basic HTML escaping
+function escapeHtml(s) {
   return String(s)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
