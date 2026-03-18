@@ -9,4 +9,8 @@ send_email = [
 ]
 
 [vars]
-# Must be an address on a domain where Cloudflare
+# Must be an address on a domain where Cloudflare Email Routing is enabled
+FROM_ADDRESS = "no-reply@weathertrackers.net"
+
+# The inbox that should receive the submission (same as destination above is fine)
+CONTACT_TO = "cloudflare@weathertrackers.com"
