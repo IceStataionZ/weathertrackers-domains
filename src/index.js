@@ -1,4 +1,6 @@
-// Use the Email Workers API (binding created by Wrangler via `send_email` in wrangler.toml)
+// src/index.js
+// Uses the Email Workers API. The binding (FORM_EMAIL) is created by Wrangler
+// from the `send_email` section in wrangler.toml.
 import { EmailMessage } from "cloudflare:email";
 
 export default {
@@ -24,7 +26,7 @@ export default {
       return new Response("Missing name/email/ack", { status: 400 });
     }
 
-    // Minimal HTML body for the email
+    // Minimal HTML body for the message
     const html = `
 <h4>New WeatherTrackers Inquiry</h4>
 <table>
@@ -34,29 +36,38 @@ export default {
   <tr><td><b>Bundle</b></td><td>${escapeHtml(bundle)}</td></tr>
   <tr><td><b>Bundle-only acknowledged</b></td><td>${ack ? "Yes" : "No"}</td></tr>
   <tr><td><b>Submitted</b></td><td>${new Date().toLocaleString()}</td></tr>
-</table>`.trim();
+</table>
+`.trim();
 
     // Addresses from environment (configured in wrangler.toml)
-    const to   = env.CONTACT_TO;              // "cloudflare@weathertrackers.com"
-    const from = env.FROM_ADDRESS;            // "no-reply@weathertrackers.net"
+    const to   = env.CONTACT_TO;       // e.g., "cloudflare@weathertrackers.com"
+    const from = env.FROM_ADDRESS;     // e.g., "no-reply@weathertrackers.net" (must be on routed domain)
 
-    // Build a simple raw MIME message (no external deps required)
+    // REQUIRED headers for MIME: Message-ID and Date
+    const messageId = `<${crypto.randomUUID()}@weathertrackers.net>`;
+    const dateHdr   = new Date().toUTCString();
+
+    // Build a raw MIME message. Use simple ASCII dash in Subject to avoid header encoding issues.
     const raw = [
       `From: ${from}`,
       `To: ${to}`,
       `Reply-To: ${email}`,
-      `Subject: WeatherTrackers inquiry — ${name}`,
-      "MIME-Version: 1.0",
-      "Content-Type: text/html; charset=UTF-8",
-      "",
+      `Message-ID: ${messageId}`,
+      `Date: ${dateHdr}`,
+      `Subject: WeatherTrackers inquiry - ${name}`,
+      `MIME-Version: 1.0`,
+      `Content-Type: text/html; charset=UTF-8`,
+      `Content-Transfer-Encoding: 8bit`,
+      ``,
       html
     ].join("\r\n");
 
     try {
       const message = new EmailMessage(from, to, raw);
-      await env.FORM_EMAIL.send(message); // <-- Correct usage with send_email binding
+      await env.FORM_EMAIL.send(message);
+      // Optional: visible in `wrangler tail` on success
+      console.log("Email sent to", to, "for", name);
     } catch (err) {
-      // Log the stack so we can see it in `wrangler tail` if something goes wrong
       console.error("Email send failed:", err?.stack || String(err));
       return new Response("Email send failed", { status: 500 });
     }
@@ -65,7 +76,7 @@ export default {
   },
 };
 
-// Basic HTML escaping
+// Basic HTML escaping for safety
 function escapeHtml(s) {
   return String(s)
     .replaceAll("&", "&amp;")
