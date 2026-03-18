@@ -1,12 +1,11 @@
 name = "weathertrackers-contact-worker"
+account_id = "7babc49d770219b5f947e69edd9128a5"
 main = "src/index.js"
 compatibility_date = "2024-11-01"
 
-# Email Workers binding (note: the key is [[email]], not "send_email")
-# The destination_address is where Cloudflare routes the message.
-[[email]]
-name = "FORM_EMAIL"
-destination_address = "cloudflare@weathertrackers.com"
+send_email = [
+  { name = "FORM_EMAIL", destination_address = "cloudflare@weathertrackers.com" }
+]
 
 [vars]
 # Must be an address on a domain where Cloudflare Email Routing is enabled
