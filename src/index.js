@@ -72,7 +72,62 @@ export default {
       return new Response("Email send failed", { status: 500 });
     }
 
-    return new Response("Contact endpoint received.", { status: 200 });
+return new Response(
+  `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inquiry Submitted</title>
+  <meta http-equiv="refresh" content="4;url=/" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+    .box {
+      background: #020617cc;
+      border: 1px solid #1e293b;
+      padding: 2rem 2.5rem;
+      border-radius: 8px;
+      max-width: 520px;
+    }
+    h1 {
+      color: #f9fafb;
+      margin-bottom: 0.75rem;
+    }
+    p {
+      color: #cbd5f5;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Thank you</h1>
+    <p>Your information has been submitted.<br />We’ll get back to you shortly.</p>
+    <p style="margin-top:1rem; font-size:0.9rem;">
+      You’ll be redirected in a moment…
+    </p>
+  </div>
+</body>
+</html>
+  `.trim(),
+  {
+    status: 200,
+    headers: {
+      "Content-Type": "text/html; charset=UTF-8",
+    },
+  }
+);
+    
+
   },
 };
 
