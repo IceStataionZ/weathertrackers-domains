@@ -134,25 +134,42 @@
         <p>Bundle‑only sale. Serious inquiries from storm chasers, weather YouTubers, and media teams.</p>
 
         <!-- Restore exact form endpoint and expected field names -->
-        <form action="https://weathertrackers.net/weathertrackers-contact" method="POST" class="contact" id="inquiry" autocomplete="on">
-          <input type="hidden" name="source" value="weathertrackers.com">
+ <form action="https://weathertrackers.net/weathertrackers-contact" method="POST" class="contact">
+  <!-- Context for routing/filters -->
+  <input type="hidden" name="bundle" value="weathertrackers.com, .net, .org, .us" />
 
-          <label for="name">Name</label>
-          <input id="name" name="name" type="text" required>
+  <div class="form-row">
+    <div>
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" required />
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required />
+    </div>
+  </div>
 
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" required>
+  <div class="form-row">
+    <div>
+      <label for="phone">Phone (optional)</label>
+      <input id="phone" name="phone" type="text" placeholder="(optional)" />
+    </div>
+    <div><!-- empty right column to keep grid balanced --></div>
+  </div>
 
-          <label for="phone">Phone (optional)</label>
-          <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="(optional)">
+  <!-- Honeypot (anti‑spam) -->
+  <input type="text" name="company" style="display:none" autocomplete="off" tabindex="-1" />
 
-          <div class="checkbox">
-            <input id="ack" name="ack" type="checkbox" value="yes" required>
-            <label for="ack">I understand this is a <strong>bundle‑only</strong> sale (all four domains together).</label>
-          </div>
+  <label style="margin-top:.75rem; display:block;">
+    <input type="checkbox" name="bundle_ack" required />
+    I understand this is a <strong>bundle‑only</strong> sale (all four domains together).
+  </label>
 
-          <button type="submit">Submit Inquiry</button>
-        </form>
+  <!-- Submit button at the very bottom -->
+  <button type="submit" class="btn-primary" style="margin-top:1rem;">
+    Submit Inquiry
+  </button>
+</form>
       </section>
     </main>
 
