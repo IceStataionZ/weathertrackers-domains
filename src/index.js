@@ -6,6 +6,7 @@ import { EmailMessage } from "cloudflare:email";
 export default {
   async fetch(request, env) {
     if (request.method !== "POST") {
+      // Only POST is supported; return 405 for everything else
       return new Response("POST only", { status: 405 });
     }
 
@@ -26,7 +27,19 @@ export default {
       return new Response("Missing name/email/ack", { status: 400 });
     }
 
-    // Minimal HTML body for the message
+    // ---------- LOCAL TIMEZONE (Eastern) DISPLAY ----------
+    // Use Cloudflare-provided timezone when available; fall back to America/Detroit (ET)
+    const tz = (request.cf && request.cf.timezone) ? request.cf.timezone : "America/Detroit";
+
+    // Format the local submitted time for the email body
+    const submittedLocal = new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      dateStyle: "short",
+      timeStyle: "medium",
+    }).format(new Date());
+    // ------------------------------------------------------
+
+    // Minimal HTML body for the message (uses the local time string)
     const html = `
 <h4>New WeatherTrackers Inquiry</h4>
 <table>
@@ -35,7 +48,7 @@ export default {
   <tr><td><b>Phone</b></td><td>${escapeHtml(phone || "(none)")}</td></tr>
   <tr><td><b>Bundle</b></td><td>${escapeHtml(bundle)}</td></tr>
   <tr><td><b>Bundle-only acknowledged</b></td><td>${ack ? "Yes" : "No"}</td></tr>
-  <tr><td><b>Submitted</b></td><td>${new Date().toLocaleString()}</td></tr>
+  <tr><td><b>Submitted</b></td><td>${submittedLocal} (${tz})</td></tr>
 </table>
 `.trim();
 
@@ -43,17 +56,17 @@ export default {
     const to   = env.CONTACT_TO;       // e.g., "cloudflare@weathertrackers.com"
     const from = env.FROM_ADDRESS;     // e.g., "no-reply@weathertrackers.net" (must be on routed domain)
 
-    // REQUIRED headers for MIME: Message-ID and Date
+    // Email headers: keep Date in UTC (standards‑compliant), add Message‑ID
     const messageId = `<${crypto.randomUUID()}@weathertrackers.net>`;
     const dateHdr   = new Date().toUTCString();
 
-    // Build a raw MIME message. Use simple ASCII dash in Subject to avoid header encoding issues.
+    // Build a raw MIME message (simple ASCII dash in Subject to avoid encoding issues)
     const raw = [
       `From: ${from}`,
       `To: ${to}`,
       `Reply-To: ${email}`,
       `Message-ID: ${messageId}`,
-      `Date: ${dateHdr}`,
+      `Date: ${dateHdr}`, // stays UTC by design
       `Subject: WeatherTrackers inquiry - ${name}`,
       `MIME-Version: 1.0`,
       `Content-Type: text/html; charset=UTF-8`,
@@ -65,15 +78,15 @@ export default {
     try {
       const message = new EmailMessage(from, to, raw);
       await env.FORM_EMAIL.send(message);
-      // Optional: visible in `wrangler tail` on success
       console.log("Email sent to", to, "for", name);
     } catch (err) {
       console.error("Email send failed:", err?.stack || String(err));
       return new Response("Email send failed", { status: 500 });
     }
 
-return new Response(
-  `
+    // Return a friendly confirmation page with auto‑redirect back to the site
+    return new Response(
+      `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,16 +131,9 @@ return new Response(
   </div>
 </body>
 </html>
-  `.trim(),
-  {
-    status: 200,
-    headers: {
-      "Content-Type": "text/html; charset=UTF-8",
-    },
-  }
-);
-    
-
+      `.trim(),
+      { status: 200, headers: { "Content-Type": "text/html; charset=UTF-8" } }
+    );
   },
 };
 
