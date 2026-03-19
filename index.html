@@ -38,77 +38,40 @@
       {"@type": "PropertyValue", "name": "Included", "value": "weathertrackers.org"},
       {"@type": "PropertyValue", "name": "Included", "value": "weathertrackers.us"}
     ],
-    "offers": {
-      "@type": "Offer",
-      "availability": "https://schema.org/InStock",
-      "url": "https://weathertrackers.com/"
-    }
+    "offers": {"@type": "Offer", "availability": "https://schema.org/InStock", "url": "https://weathertrackers.com/"}
   }
   </script>
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {"@type": "Question", "name": "Is this a bundle-only sale?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The domains are sold only together to protect brand integrity and long-term value."}},
-      {"@type": "Question", "name": "Who is this ideal for?", "acceptedAnswer": {"@type": "Answer", "text": "Established storm chasers, weather YouTubers, multi-chaser teams, and weather intelligence or SaaS startups."}}
-    ]
-  }
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Is this a bundle-only sale?","acceptedAnswer":{"@type":"Answer","text":"Yes. The domains are sold only together to protect brand integrity and long-term value."}},
+    {"@type":"Question","name":"Who is this ideal for?","acceptedAnswer":{"@type":"Answer","text":"Established storm chasers, weather YouTubers, multi-chaser teams, and weather intelligence or SaaS startups."}}
+  ]}
   </script>
 
   <style>
-    /* Preserve existing feel and formatting based on provided screenshots */
-    :root {
-      --bg: #0b1b2a;
-      --text: #e6eef6;
-      --muted: #c0c9d2;
-      --panel: rgba(15, 28, 44, 0.75);
-      --accent: #7fb3ff;
-      --max: 960px;
-    }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
-      color: var(--text);
-      background: var(--bg) center/cover no-repeat fixed url('/WeatherTrackersBackgroundTM.jpg');
-    }
-    .backdrop { /* subtle overlay for readability */
-      min-height: 100vh;
-      background: linear-gradient(180deg, rgba(5,10,18,.55), rgba(5,10,18,.55));
-    }
-    .wrap { max-width: var(--max); margin: 0 auto; padding: 56px 20px; }
-    h1 { font-size: 1.8rem; margin: 0 0 0.75rem; }
-    h2 { font-size: 1.25rem; margin: 2rem 0 0.5rem; }
-    h3 { font-size: 1.1rem; margin: 1rem 0 0.25rem; }
-    p { color: var(--muted); margin: 0.5rem 0 1rem; }
-    ul { margin: 0.5rem 0 1rem 1.25rem; }
-    .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 0.75rem 0 0.5rem; }
-    .card { background: var(--panel); border-radius: 10px; padding: 14px 16px; border: 1px solid rgba(255,255,255,.08); }
-    .card strong { display:block; color: #ffffff; }
-    .small { font-size: 0.95rem; }
-
-    /* Form */
-    form { margin-top: 0.75rem; }
-    label { display:block; margin: 10px 0 4px; color: var(--text); }
-    input[type="text"], input[type="email"], input[type="tel"] {
-      width: 100%; padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,.15);
-      background: rgba(10,20,32,.6); color: #fff; outline: none;
-    }
-    input::placeholder { color: #aab6c2; }
-    .checkbox { display:flex; gap:10px; align-items: flex-start; margin-top: 10px; }
-    .checkbox input { margin-top: 4px; }
-    button { margin-top: 12px; padding: 10px 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,.2); background: rgba(20,40,64,.8); color: #fff; cursor: pointer; }
-    button:hover { background: rgba(35,70,110,.85); }
-
-    footer { text-align:center; color: #b9c5d1; padding: 28px 0 16px; font-size: 0.95rem; }
-
-    /* Mobile spacing tweaks */
-    @media (max-width: 640px) {
-      .wrap { padding: 40px 16px; }
-      h1 { font-size: 1.4rem; }
-      h2 { font-size: 1.15rem; }
-    }
+    :root { --bg:#0b1b2a; --text:#e6eef6; --muted:#c0c9d2; --panel:rgba(15,28,44,.75); --max:960px; }
+    html, body { height:100%; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; color:var(--text); background: var(--bg) center/cover no-repeat fixed url('/WeatherTrackersBackgroundTM.jpg'); }
+    .backdrop { min-height:100vh; background: linear-gradient(180deg, rgba(5,10,18,.55), rgba(5,10,18,.55)); }
+    .wrap { max-width:var(--max); margin:0 auto; padding:56px 20px; }
+    h1 { font-size:1.8rem; margin:0 0 .75rem; }
+    h2 { font-size:1.25rem; margin:2rem 0 .5rem; }
+    h3 { font-size:1.1rem; margin:1rem 0 .25rem; }
+    p { color:var(--muted); margin:.5rem 0 1rem; }
+    ul { margin:.5rem 0 1rem 1.25rem; }
+    .grid { display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); margin:.75rem 0 .5rem; }
+    .card { background:var(--panel); border-radius:10px; padding:14px 16px; border:1px solid rgba(255,255,255,.08); }
+    .card strong { display:block; color:#fff; }
+    .small { font-size:.95rem; }
+    form { margin-top:.75rem; }
+    label { display:block; margin:10px 0 4px; color:var(--text); }
+    input[type=text], input[type=email], input[type=tel] { width:100%; padding:10px 12px; border-radius:6px; border:1px solid rgba(255,255,255,.15); background:rgba(10,20,32,.6); color:#fff; outline:none; }
+    .checkbox { display:flex; gap:10px; align-items:flex-start; margin-top:10px; }
+    .checkbox input { margin-top:4px; }
+    button { margin-top:12px; padding:10px 14px; border-radius:6px; border:1px solid rgba(255,255,255,.2); background:rgba(20,40,64,.8); color:#fff; cursor:pointer; }
+    button:hover { background:rgba(35,70,110,.85); }
+    footer { text-align:center; color:#b9c5d1; padding:28px 0 16px; font-size:.95rem; }
+    @media (max-width:640px){ .wrap{padding:40px 16px;} h1{font-size:1.4rem;} h2{font-size:1.15rem;} }
   </style>
 </head>
 <body>
@@ -169,8 +132,11 @@
       <section aria-labelledby="contact">
         <h2 id="contact">Contact to Discuss Acquisition</h2>
         <p>Bundle‑only sale. Serious inquiries from storm chasers, weather YouTubers, and media teams.</p>
-        <!-- Form: keeping names/fields as in your current copy; no JS added -->
+
+        <!-- Restore exact form endpoint and expected field names -->
         <form action="https://weathertrackers.net/weathertrackers-contact" method="POST" class="contact" id="inquiry" autocomplete="on">
+          <input type="hidden" name="source" value="weathertrackers.com">
+
           <label for="name">Name</label>
           <input id="name" name="name" type="text" required>
 
@@ -178,11 +144,11 @@
           <input id="email" name="email" type="email" required>
 
           <label for="phone">Phone (optional)</label>
-          <input id="phone" name="phone" type="tel" inputmode="tel">
+          <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="(optional)">
 
           <div class="checkbox">
-            <input id="bundle" name="bundle_only" type="checkbox" required>
-            <label for="bundle">I understand this is a <strong>bundle‑only</strong> sale (all four domains together).</label>
+            <input id="ack" name="ack" type="checkbox" value="yes" required>
+            <label for="ack">I understand this is a <strong>bundle‑only</strong> sale (all four domains together).</label>
           </div>
 
           <button type="submit">Submit Inquiry</button>
