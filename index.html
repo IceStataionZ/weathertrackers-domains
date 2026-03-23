@@ -164,6 +164,12 @@
     <input type="checkbox" name="bundle_ack" required />
     I understand this is a <strong>bundle‑only</strong> sale (all four domains together).
   </label>
+  
+  <!-- Cloudflare Turnstile (Invisible) -->
+  <div class="cf-turnstile"
+     data-sitekey=0x4AAAAAACtYdEjyotX69WbG
+     data-size="invisible">
+  </div>
 
   <!-- Submit button at the very bottom -->
   <button type="submit" class="btn-primary" style="margin-top:1rem;">
@@ -177,5 +183,6 @@
       <p>© 2026 — WeatherTrackers Domain Portfolio</p>
     </footer>
   </div>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </body>
 </html>
