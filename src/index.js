@@ -12,6 +12,32 @@ export default {
 
     const form = await request.formData();
 
+// ---- Cloudflare Turnstile verification (required) ----
+const turnstileToken = form.get("cf-turnstile-response");
+if (!turnstileToken) {
+  return new Response("Turnstile token missing", { status: 400 });
+}
+
+const verifyRes = await fetch(
+  "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      secret: env.TURNSTILE_SECRET,
+      response: turnstileToken,
+      remoteip: request.headers.get("CF-Connecting-IP"),
+    }),
+  }
+);
+
+const verifyData = await verifyRes.json();
+if (!verifyData.success) {
+  console.warn("Turnstile failed", verifyData);
+  return new Response("Verification failed", { status: 403 });
+}
+// -----------------------------------------------------
+    
     // Honeypot: if bots fill this, exit quietly
     if (form.get("company")) {
       return new Response("OK", { status: 200 });
